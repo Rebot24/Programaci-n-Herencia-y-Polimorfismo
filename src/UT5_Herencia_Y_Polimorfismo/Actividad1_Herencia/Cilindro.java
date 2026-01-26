@@ -1,4 +1,6 @@
-public class Cilindro extends Circulo{
+package UT5_Herencia_Y_Polimorfismo.Actividad1_Herencia;
+
+public class Cilindro extends Circulo {
     private double altura;
 
     public Cilindro(double radio, double altura) {
