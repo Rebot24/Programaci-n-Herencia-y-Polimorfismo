@@ -2,14 +2,14 @@ package UT5_Herencia_Y_Polimorfismo.Actividad2_Composición.Ejercicio1;
 
 public class Cama {
     private String estilo;
-    private int almohadas, altura, sabanas, cocha;
+    private int almohadas, altura, sabanas, colcha;
 
-    public Cama(String estilo,  int almohadas, int altura, int sabanas, int cocha) {
+    public Cama(String estilo,  int almohadas, int altura, int sabanas, int colcha) {
         this.estilo = estilo;
         this.almohadas = almohadas;
         this.altura = altura;
         this.sabanas = sabanas;
-        this.cocha = cocha;
+        this.colcha = colcha;
     }
 
     public void hacer(){
@@ -32,7 +32,7 @@ public class Cama {
         return altura;
     }
 
-    public int getCocha() {
-        return cocha;
+    public int getColcha() {
+        return colcha;
     }
 }

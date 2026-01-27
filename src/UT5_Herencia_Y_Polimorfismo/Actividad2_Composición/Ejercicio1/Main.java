@@ -5,7 +5,7 @@ public class Main {
         // Crear objetos necesarios
         Lampara lampara = new Lampara("Moderna", true, 9);
         Cama cama = new Cama("Minimalista", 2, 50, 1, 1);
-        Techo techo = new Techo(300, 1);
+        Techo techo = new Techo(300, 12);
 
         Pared pared1 = new Pared("Norte");
         Pared pared2 = new Pared("Sur");
