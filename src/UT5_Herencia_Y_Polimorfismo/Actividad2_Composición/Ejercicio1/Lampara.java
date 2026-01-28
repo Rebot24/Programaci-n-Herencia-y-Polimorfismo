@@ -12,7 +12,13 @@ public class Lampara {
     }
 
     public void encender(){
-        System.out.println("La lampara se ha encendido.");
+        System.out.println("Encendendo la lampara...");
+        try {
+            Thread.sleep(2000);
+            System.out.println("Has encendido la lampara.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getEstilo() {

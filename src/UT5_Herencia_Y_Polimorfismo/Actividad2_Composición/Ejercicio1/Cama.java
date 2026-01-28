@@ -13,7 +13,13 @@ public class Cama {
     }
 
     public void hacer(){
-        System.out.println("Se ha hecho la cama.");
+        System.out.println("Haciendo la cama...");
+        try {
+            Thread.sleep(5000);
+            System.out.println("Has hecho la cama.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getEstilo() {

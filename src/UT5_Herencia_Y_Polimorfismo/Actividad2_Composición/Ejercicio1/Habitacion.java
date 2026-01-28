@@ -23,7 +23,6 @@ public class Habitacion {
     }
 
     public void hacerLaCama(){
-        System.out.println("Se está haciendo la cama.");
         cama.hacer();
     }
 }

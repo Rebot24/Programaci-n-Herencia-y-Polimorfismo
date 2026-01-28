@@ -7,7 +7,6 @@ public class MainEncapsulacion {
         System.out.println("Tóner actual: " + impresora.setToner(20));
         System.out.println("Páginas para imprimir: " + impresora.imprimir(7));
         System.out.println("Total páginas impresas: " + impresora.getpImpresas());
-        System.out.println("Páginas para imprimir: " + impresora.imprimir(7));
-        System.out.println("Total páginas impresas: " + impresora.getpImpresas());
+        System.out.println("Tóner: " + impresora.getnivelToner());
     }
 }

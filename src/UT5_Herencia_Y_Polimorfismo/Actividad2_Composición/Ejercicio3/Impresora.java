@@ -26,20 +26,28 @@ public class Impresora {
         int hojasNecesarias;
 
         if (dobleCara){
-            hojasNecesarias = (paginas + 1) / 2;
+            if (paginas % 2 == 0){
+                hojasNecesarias = paginas / 2;
+            } else {
+                hojasNecesarias = (paginas + 1) / 2;
+            }
         } else {
             hojasNecesarias = paginas;
         }
 
         if (hojasNecesarias > nivelToner) return -1;
 
-        nivelToner -= hojasNecesarias;
-        paginasImpresas += paginas;
+        nivelToner -= paginas;
+        paginasImpresas += hojasNecesarias;
 
         return paginas;
     }
 
     public int getpImpresas() {
         return paginasImpresas;
+    }
+
+    public int getnivelToner() {
+        return nivelToner;
     }
 }
