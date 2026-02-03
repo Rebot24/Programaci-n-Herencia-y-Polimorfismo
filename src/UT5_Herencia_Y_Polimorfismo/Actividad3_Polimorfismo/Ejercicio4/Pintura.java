@@ -7,7 +7,7 @@ public class Pintura {
         this.cobertura = cobertura;
     }
 
-    public double calcularPintura(Forma forma){
+    public double calcularPintura(Forma forma) {
         return forma.area() / cobertura;
     }
 

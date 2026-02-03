@@ -7,7 +7,7 @@ public class Forma {
         this.nombre = nombre;
     }
 
-    public double area(){
+    public double area() {
         return 0;
     }
 
