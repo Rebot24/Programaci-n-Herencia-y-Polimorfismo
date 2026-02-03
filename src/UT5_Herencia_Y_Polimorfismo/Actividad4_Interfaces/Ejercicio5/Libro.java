@@ -8,6 +8,10 @@ public class Libro extends Bienes implements Imponible {
         this.autor = autor;
     }
 
+    public String getAutor() {
+        return autor;
+    }
+
     @Override
     public double calculoImpuestos() {
         return precio * TASA_IMPUESTOS;
