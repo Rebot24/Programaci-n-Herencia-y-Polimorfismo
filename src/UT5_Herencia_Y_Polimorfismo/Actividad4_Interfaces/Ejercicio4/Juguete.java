@@ -10,7 +10,7 @@ public class Juguete extends Bienes implements Imponible{
 
     @Override
     public double calculoImpuestos() {
-        return precio * TASA_IMPUESTOS;
+        return precio + TASA_IMPUESTOS * precio;
     }
 
     @Override
