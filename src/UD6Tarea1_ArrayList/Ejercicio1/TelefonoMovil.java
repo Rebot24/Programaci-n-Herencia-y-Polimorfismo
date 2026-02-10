@@ -36,6 +36,13 @@ public class TelefonoMovil {
         return myContacts.indexOf(newContact);
     }
 
+    private int findContact(String name) {
+        for (Contacto contact : myContacts) {
+            if (contact.getName().equals(name)) return findContact(contact);
+        }
+        return -1;
+    }
+
     public Contacto queryContact(String name) {
         for (Contacto contacto : myContacts) {
             if (contacto.getName().equals(name)) {
