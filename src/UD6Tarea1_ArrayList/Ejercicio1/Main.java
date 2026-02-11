@@ -7,6 +7,13 @@ public class Main {
     private static TelefonoMovil telefonoMovil = new TelefonoMovil("673702903");
 
     public static void main(String[] args) {
+        Contacto contacto1 = new Contacto("Daniela", "111111111");
+        telefonoMovil.addNewContact(contacto1);
+        Contacto contacto2 = new Contacto("Juan Pablo", "222222222");
+        telefonoMovil.addNewContact(contacto2);
+        Contacto contacto3 = new Contacto("Nortes", "333333333");
+        telefonoMovil.addNewContact(contacto3);
+
         int opcion = 6;
         do {
             menu();
@@ -45,8 +52,15 @@ public class Main {
         System.out.print("Introduce el numero del contacto: ");
         String numero = sc.next();
         sc.nextLine();
-        Contacto contacto = new Contacto(nombre, numero);
-        telefonoMovil.addNewContact(contacto);
+        Contacto contacto = telefonoMovil.queryContact(nombre);
+        if (contacto == null) {
+            contacto = new Contacto(nombre, numero);
+            telefonoMovil.addNewContact(contacto);
+            System.out.println("Contacto agregado correctamente");
+        } else  {
+            System.out.println("El contacto ya existe");
+        }
+
     }
 
     public static void actualizarContacto() {
@@ -61,12 +75,17 @@ public class Main {
             System.out.print("Introduce el numero del nuevo contacto: ");
             String numero = sc.nextLine();
 
-            Contacto newContact = new Contacto(nombre, numero);
+            Contacto newContact = telefonoMovil.queryContact(nombre);
 
-            if (telefonoMovil.updateContact(oldContact, newContact)) {
-                System.out.println("Contacto actualizado correctamente");
-            } else {
-                System.out.println("No se pudo actualizar el contacto");
+            if (newContact == null) {
+                newContact = new Contacto(nombre, numero);
+                if (telefonoMovil.updateContact(oldContact, newContact)) {
+                    System.out.println("Contacto actualizado correctamente");
+                } else {
+                    System.out.println("No se pudo actualizar el contacto");
+                }
+            } else  {
+                System.out.println("El contacto ya existe");
             }
         }
     }
