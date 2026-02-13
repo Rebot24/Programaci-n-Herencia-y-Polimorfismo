@@ -1,14 +1,12 @@
 package UT6_Colecciones.Actividad2_LinkedList.Ejercicio1;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static ArrayList<Album> albums = new ArrayList<>();
     private static LinkedList<Cancion> playList = new LinkedList<>();
     private static Scanner sc = new Scanner(System.in);
+    private static boolean adelante = true;
 
     public static void main(String[] args) {
         //creacion de albums
@@ -27,7 +25,11 @@ public class Main {
         album2.addSong("Dtmf", 3.58);
 
         album1.addToPlayList(1, playList);
+        album1.addToPlayList(2, playList);
+        album1.addToPlayList(3, playList);
+        album2.addToPlayList("NUEVAYoL", playList);
         album2.addToPlayList("CAFé CON RON", playList);
+        album2.addToPlayList("Dtmf", playList);
 
         play(playList);
     }
@@ -45,8 +47,8 @@ public class Main {
     public static void opciones(int opcion, ListIterator<Cancion> listIterator) {
         switch (opcion) {
             case 1: System.out.println("------"); nextCancion(listIterator); System.out.println("------"); break;
-            case 2: System.out.println("------"); break;
-            case 3: System.out.println("------"); break;
+            case 2: System.out.println("------"); prevCancion(listIterator); System.out.println("------"); break;
+            case 3: System.out.println("------"); repetirCancion(listIterator); System.out.println("------"); break;
             case 4: System.out.println("------"); imprimirPlayList(); System.out.println("------"); break;
             case 0, 5: System.out.println("------"); break;
             default: System.out.println("Opcion incorrecta"); System.out.println("------");
@@ -54,10 +56,63 @@ public class Main {
     }
 
     public static void nextCancion(ListIterator<Cancion> listIterator){
-        if (listIterator.hasNext()) {
+        if (adelante){
+            if (listIterator.hasNext()){
+                Cancion cancion = listIterator.next();
+                System.out.println("Reproduciendo: " + cancion);
+            } else {
+                System.out.println("Has llegado al final");
+                listIterator.previous();
+                adelante = false;
+            }
+        } else {
             listIterator.next();
-            System.out.println("Reproduciendo: " + listIterator.next());
-        } else System.out.println("Has llegado al final.");
+            adelante = true;
+            if (listIterator.hasNext()){
+                Cancion cancion = listIterator.next();
+                System.out.println("Reproduciendo: " + cancion);
+            } else {
+                System.out.println("Has llegado al final");
+                listIterator.previous();
+                adelante = false;
+            }
+        }
+    }
+
+    public static void prevCancion(ListIterator<Cancion> listIterator){
+        if (adelante){
+            listIterator.previous();
+            adelante = false;
+            if (listIterator.hasPrevious()){
+                Cancion cancion = listIterator.previous();
+                System.out.println("Reproduciendo: " + cancion);
+            } else {
+                System.out.println("Has llegado al principio");
+                listIterator.next();
+                adelante = true;
+            }
+        } else {
+            if (listIterator.hasPrevious()){
+                Cancion cancion = listIterator.previous();
+                System.out.println("Reproduciendo: " + cancion);
+            } else {
+                System.out.println("Has llegado al principio");
+                listIterator.next();
+                adelante = true;
+            }
+        }
+    }
+
+    public static void repetirCancion(ListIterator<Cancion> listIterator){
+        if (adelante){
+            Cancion cancion = listIterator.previous();
+            System.out.println("Reproduciendo: " + cancion);
+            listIterator.next();
+        } else {
+            Cancion cancion = listIterator.next();
+            System.out.println("Reproduciendo: " + cancion);
+            listIterator.previous();
+        }
     }
 
     public static void imprimirPlayList(){
@@ -77,13 +132,20 @@ public class Main {
 
         System.out.println("Reproduciendo: " + listIterator.next());
         imprimirPlayList();
+        System.out.println("------");
 
         int opcion = 6;
         do {
-            menu();
-            opcion = sc.nextInt();
-            sc.nextLine();
-            opciones(opcion, listIterator);
+            try {
+                menu();
+                opcion = sc.nextInt();
+                sc.nextLine();
+                opciones(opcion, listIterator);
+            } catch (InputMismatchException e) {
+                System.out.println("No se pueden usar letras ni caractéres especiales.");
+                System.out.println("------");
+                sc.nextLine();
+            }
         } while (opcion != 0);
     }
 }
