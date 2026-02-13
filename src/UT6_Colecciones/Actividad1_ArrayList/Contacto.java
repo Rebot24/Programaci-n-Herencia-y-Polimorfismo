@@ -1,4 +1,4 @@
-package UD6Tarea1_ArrayList.Ejercicio1;
+package UT6_Colecciones.Actividad1_ArrayList;
 
 public class Contacto {
     private String name, phoneNumber;

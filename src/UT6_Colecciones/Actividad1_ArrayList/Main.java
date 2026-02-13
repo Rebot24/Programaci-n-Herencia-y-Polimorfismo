@@ -1,5 +1,6 @@
-package UD6Tarea1_ArrayList.Ejercicio1;
+package UT6_Colecciones.Actividad1_ArrayList;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -16,10 +17,15 @@ public class Main {
 
         int opcion = 6;
         do {
-            menu();
-            opcion = sc.nextInt();
-            sc.nextLine();
-            opciones(opcion);
+            try {
+                menu();
+                opcion = sc.nextInt();
+                sc.nextLine();
+                opciones(opcion);
+            } catch (InputMismatchException e) {
+                System.out.println("No se pueden usar letras ni caractéres especiales.");
+                sc.nextLine();
+            }
         } while (opcion != 0);
     }
 
