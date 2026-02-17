@@ -52,4 +52,14 @@ public class Album {
             return false;
         }
     }
+
+    public String toString() {
+        String s = "";
+
+        for (Cancion cancion : this.canciones) {
+            s += cancion.toString() + "\n";
+        }
+
+        return s;
+    }
 }

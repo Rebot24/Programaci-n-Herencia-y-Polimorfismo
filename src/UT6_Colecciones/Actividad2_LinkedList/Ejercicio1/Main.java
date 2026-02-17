@@ -19,10 +19,12 @@ public class Main {
         album1.addSong("CHILLIN", 2.37);
         album1.addSong("HIJA DE PUTA", 2.44);
         album1.addSong("Hijos de la ruina", 3.15);
+        album1.addSong("LOS NIÑOS DEL BARRIO", 3.24);
 
         album2.addSong("NUEVAYoL", 3.04);
         album2.addSong("CAFé CON RON", 3.49);
         album2.addSong("Dtmf", 3.58);
+        album2.addSong("BOKeTE", 3.48);
 
         album1.addToPlayList(1, playList);
         album1.addToPlayList(2, playList);
@@ -30,6 +32,12 @@ public class Main {
         album2.addToPlayList("NUEVAYoL", playList);
         album2.addToPlayList("CAFé CON RON", playList);
         album2.addToPlayList("Dtmf", playList);
+
+        System.out.println("Album 1:");
+        System.out.println(album1);
+
+        System.out.println("Album 2:");
+        System.out.println(album2);
 
         play(playList);
     }
@@ -41,6 +49,7 @@ public class Main {
         System.out.println("3. Repetir la canción actual");
         System.out.println("4. Imprimir la lista de canciones en la playlist");
         System.out.println("5. Volver a imprimir el menú");
+        System.out.println("6. Eliminar la canción actual");
         System.out.print("Introduce una de las opciones: ");
     }
 
@@ -50,56 +59,39 @@ public class Main {
             case 2: System.out.println("------"); prevCancion(listIterator); System.out.println("------"); break;
             case 3: System.out.println("------"); repetirCancion(listIterator); System.out.println("------"); break;
             case 4: System.out.println("------"); imprimirPlayList(); System.out.println("------"); break;
+            case 6: System.out.println("------"); eliminarCancion(listIterator); System.out.println("------"); break;
             case 0, 5: System.out.println("------"); break;
             default: System.out.println("Opcion incorrecta"); System.out.println("------");
         }
     }
 
     public static void nextCancion(ListIterator<Cancion> listIterator){
-        if (adelante){
-            if (listIterator.hasNext()){
-                Cancion cancion = listIterator.next();
-                System.out.println("Reproduciendo: " + cancion);
-            } else {
-                System.out.println("Has llegado al final");
-                listIterator.previous();
-                adelante = false;
-            }
-        } else {
+        if (!adelante) {
             listIterator.next();
             adelante = true;
-            if (listIterator.hasNext()){
-                Cancion cancion = listIterator.next();
-                System.out.println("Reproduciendo: " + cancion);
-            } else {
-                System.out.println("Has llegado al final");
-                listIterator.previous();
-                adelante = false;
-            }
+        }
+
+        if (listIterator.hasNext()) {
+            System.out.println("Reproduciendo: " + listIterator.next());
+        } else {
+            System.out.println("Has llegado al final.");
+            listIterator.previous();
+            adelante = false;
         }
     }
 
     public static void prevCancion(ListIterator<Cancion> listIterator){
-        if (adelante){
+        if (adelante) {
             listIterator.previous();
             adelante = false;
-            if (listIterator.hasPrevious()){
-                Cancion cancion = listIterator.previous();
-                System.out.println("Reproduciendo: " + cancion);
-            } else {
-                System.out.println("Has llegado al principio");
-                listIterator.next();
-                adelante = true;
-            }
-        } else {
-            if (listIterator.hasPrevious()){
-                Cancion cancion = listIterator.previous();
-                System.out.println("Reproduciendo: " + cancion);
-            } else {
-                System.out.println("Has llegado al principio");
-                listIterator.next();
-                adelante = true;
-            }
+        }
+
+        if (listIterator.hasPrevious()) {
+            System.out.println("Reproduciendo: " + listIterator.previous());
+        }  else {
+            System.out.println("Has llegado al principio.");
+            listIterator.next();
+            adelante = true;
         }
     }
 
@@ -122,6 +114,23 @@ public class Main {
         }
     }
 
+    public static void eliminarCancion(ListIterator<Cancion> listIterator){
+        if (!playList.isEmpty()){
+            listIterator.remove();
+            System.out.println("Canción eliminada.");
+
+            if (listIterator.hasNext()){
+                System.out.println("Reproduciendo: " + listIterator.next());
+                adelante = true;
+            } else if (listIterator.hasPrevious()){
+                System.out.println("Reproduciendo: " + listIterator.previous());
+                adelante = false;
+            }
+        } else {
+            System.out.println("La playlist está vacía.");
+        }
+    }
+
     public static void play(LinkedList<Cancion> playList){
         if (playList.isEmpty()) {
             System.out.println("La playlist está vacía.");
@@ -131,7 +140,6 @@ public class Main {
         ListIterator<Cancion> listIterator = playList.listIterator();
 
         System.out.println("Reproduciendo: " + listIterator.next());
-        imprimirPlayList();
         System.out.println("------");
 
         int opcion = 6;
@@ -146,6 +154,12 @@ public class Main {
                 System.out.println("------");
                 sc.nextLine();
             }
-        } while (opcion != 0);
+        } while (opcion != 0 && !playList.isEmpty());
+
+        if (playList.isEmpty()) {
+            System.out.println("Se ha acabado la playList.");
+        }  else {
+            System.out.println("Adiós.");
+        }
     }
 }
