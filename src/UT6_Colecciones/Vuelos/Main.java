@@ -17,7 +17,6 @@ public class Main {
             menu();
             opcion = sc.nextInt();
             sc.nextLine();
-            System.out.println("-----------------------------");
             eleccion(opcion);
         } while (opcion != 0);
     }
@@ -38,29 +37,85 @@ public class Main {
 
     public static void eleccion(int opcion){
         switch (opcion){
-            case 1: imprimir(); System.out.println("-----------------------------"); break;
-            case 2: buscarNumero(); System.out.println("------------------------------"); break;
+            case 1: imprimir(); break;
+            case 2: buscarNumero(); break;
+            case 3: buscarClave(); break;
         }
     }
 
     public static void imprimir(){
-        for(Vuelos vuelo: vuelos.values()){
-            System.out.println(vuelo);
+        if (vuelos.isEmpty()){
+            System.out.println();
+            System.out.println("DATOS DE LOS VUELOS:");
+            System.out.println("No existen vuelos.");
+        } else {
+            System.out.println();
+            System.out.println("DATOS DE LOS VUELOS:");
+            for(Vuelos vuelo: vuelos.values()){
+                System.out.println(vuelo);
+            }
         }
     }
 
     public static void buscarNumero(){
         String numero;
+        System.out.println();
+        System.out.println("BUSCAR VUELO POR Nº:");
         if (vuelos.isEmpty()) {
             System.out.println("No existen vuelos.");
         } else {
-            System.out.println("BUSCAR VUELO POR Nº:");
             System.out.print("Número de vuelo: ");
             numero = sc.nextLine();
-            sc.nextLine();
 
             if (vuelos.containsKey(numero)) {
+                System.out.println();
                 System.out.println(vuelos.get(numero));
+            } else {
+                System.out.println("El número de vuelo no existe.");
+            }
+        }
+    }
+
+    public static void buscarClave(){
+        String clave, valor;
+        int contador = 0;
+        System.out.println();
+
+        System.out.println("BUSCAR VUELO POR CLAVE:");
+        if (vuelos.isEmpty()){
+            System.out.println("No existen vuelos.");
+        } else {
+            System.out.print("Clave: ");
+            clave = sc.nextLine();
+            if (vuelos.containsKey(clave)){
+                System.out.print("Valor: ");
+                valor = sc.nextLine();
+
+                for (Vuelos vuelo : vuelos.values()){
+                    if (vuelo.getNumero().equals(valor)){
+                        System.out.println(vuelo);
+                        contador++;
+                    } else if (vuelo.getClase().equals(valor)){
+                        System.out.println(vuelo);
+                        contador++;
+                    } else if (vuelo.getDestino().equals(valor)){
+                        System.out.println(vuelo);
+                        contador++;
+                    }
+                    else if (vuelo.getDia().equals(valor)){
+                        System.out.println(vuelo);
+                        contador++;
+                    } else if (vuelo.getOrigen().equals(valor)){
+                        System.out.println(vuelo);
+                        contador++;
+                    }
+                }
+
+                if (contador == 0){
+                    System.out.println("No existen datos para (" + clave + " = " + valor + ").");
+                }
+            } else {
+                System.out.println("Lo siento pero la clave no existe.");
             }
         }
     }
