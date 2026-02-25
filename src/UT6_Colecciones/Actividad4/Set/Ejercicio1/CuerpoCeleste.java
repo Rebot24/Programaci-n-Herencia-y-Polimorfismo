@@ -39,6 +39,9 @@ public class CuerpoCeleste {
     }
 
     public boolean addSatelite(CuerpoCeleste satelite) {
+        if (satelites.equals(satelite)) {
+            return false;
+        }
         return satelites.add(satelite);
     }
 
