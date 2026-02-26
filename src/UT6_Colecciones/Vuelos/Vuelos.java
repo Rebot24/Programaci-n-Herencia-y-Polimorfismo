@@ -21,22 +21,6 @@ public class Vuelos {
         this.vuelos = new ArrayList<Vuelos>();
     }
 
-    public boolean addNewVuelo(Vuelos vuelo){
-        if (vuelo == null) return false;
-
-        if (findNumVuelo(vuelo.getNumero())) return false;
-
-        vuelos.add(vuelo);
-        return true;
-    }
-
-    public boolean findNumVuelo(String num){
-        for (Vuelos vuelo : vuelos) {
-            if (vuelo.getNumero().equals(num)) return true;
-        }
-        return false;
-    }
-
     public String getNumero() {
         return numero;
     }
