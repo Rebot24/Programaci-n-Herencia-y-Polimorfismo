@@ -9,10 +9,10 @@ public class Main {
     public static void main(String[] args) {
         int opcion;
 
-        vuelos.add(new Vuelos("2023-01", "Valencia", "Menorca", "15-08", Vuelos.Clase.TURISTA));
-        vuelos.add(new Vuelos("2023-02", "Valencia", "Tenerife", "20-08", Vuelos.Clase.TURISTA));
-        vuelos.add(new Vuelos("2023-03", "París", "Valencia", "15-08", Vuelos.Clase.PRIMERA));
-        vuelos.add(new Vuelos("2023-04", "Atenas", "Valencia", "20-08", Vuelos.Clase.PRIMERA));
+        vuelos.add(new Vuelos("2020-01", "Valencia", "Menorca", "15-08", Vuelos.Clase.TURISTA));
+        vuelos.add(new Vuelos("2020-02", "Valencia", "Tenerife", "20-08", Vuelos.Clase.TURISTA));
+        vuelos.add(new Vuelos("2020-03", "París", "Valencia", "15-08", Vuelos.Clase.PRIMERA));
+        vuelos.add(new Vuelos("2020-04", "Atenas", "Valencia", "20-08", Vuelos.Clase.PRIMERA));
 
         do {
             menu();
@@ -43,6 +43,7 @@ public class Main {
             case 2: buscarNumero(); System.out.println(); break;
             case 3: buscarClave(); System.out.println(); break;
             case 4: anadirVuelo(); System.out.println(); break;
+            case 5: borrarVuelo(); System.out.println(); break;
         }
     }
 
@@ -172,7 +173,7 @@ public class Main {
         } while (!dia.matches("\\d{2}-\\d{2}"));
 
         do {
-            System.out.println("Clase: ");
+            System.out.print("Clase: ");
             clase = sc.nextLine();
         } while (!clase.equalsIgnoreCase("Primera") &&  !clase.equalsIgnoreCase("Turista"));
 
@@ -185,6 +186,26 @@ public class Main {
     }
 
     public static void borrarVuelo(){
+        System.out.println("BORRAR VUELO:");
 
+        if (vuelos.isEmpty()) {
+            System.out.println("No existen vuelos.");
+            return;
+        }
+
+        System.out.print("Número de vuelo: ");
+        String numero = sc.nextLine();
+
+
+        int contador = 0;
+        for (int i = 0; i < vuelos.size(); i++) {
+            if (vuelos.get(i).getNumero().equalsIgnoreCase(numero)){
+                vuelos.remove(i);
+                System.out.println("Vuelo nº " + numero + " eliminado.");
+                contador++;
+            }
+        }
+
+        if (contador == 0) System.out.println("El número de vuelo no existe.");
     }
 }
