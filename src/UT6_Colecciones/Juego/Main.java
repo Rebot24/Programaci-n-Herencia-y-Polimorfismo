@@ -1,214 +1,157 @@
 package UT6_Colecciones.Juego;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static final Scanner sc = new Scanner(System.in);
-    private static final ArrayList<Jugador> jugadores = new ArrayList<>();
-    private static String nomJug;
-    private static boolean jugado = false;
+    private static final Map<String, Jugador> jugadores = new LinkedHashMap<>();
+    private static final Random random = new Random();
 
-    static void main(String[] args) {
-        jugadores.add(new Jugador("Sergio", Jugador.Personaje.INVENTOR, 90));
-        jugadores.add(new Jugador("Mara", Jugador.Personaje.GUERRERO, 80));
-        jugadores.add(new Jugador("Miquel", Jugador.Personaje.RASTREADOR, 85));
-        jugadores.add(new Jugador("Claudia", Jugador.Personaje.MAGO, 110));
-        jugadores.add(new Jugador("Carlos", Jugador.Personaje.SABIO, 95));
-        jugadores.add(new Jugador("Alexia", Jugador.Personaje.EXPLORADOR, 100));
+    public static void main(String[] args) {
+        int opcion = 0;
 
-        boolean existe = false;
-        int eleccion;
+        cargarPersonajes();
+        Jugador jugador1 = pedirJugadorInicial();
 
         do {
-            if (!jugado) {
-                do {
-                    for (Jugador jugador : jugadores) {
-                        System.out.println(jugador);
-                    }
-                    System.out.println();
-
-                    System.out.print("Ingrese el nombre del personaje principal: ");
-                    nomJug = sc.nextLine();
-
-                    for (Jugador jugador : jugadores) {
-                        if (jugador.getNombre().equalsIgnoreCase(nomJug)) {
-                            existe = true;
-                            System.out.println("Se ha encontrado el jugador correctamente.");
-                        }
-                    }
-                    jugado = true;
-                } while (!existe);
-            }
-
             menu();
-            eleccion = sc.nextInt();
+            opcion = sc.nextInt();
+            sc.nextLine();
 
-            elecciones(eleccion);
-        } while (eleccion != 3);
+            switch (opcion) {
+                case 1: System.out.println(jugador1); break;
+                case 2: jugar(jugador1); break;
+            }
+        } while (opcion != 3);
     }
 
-    public static void menu(){
-        System.out.println("=======================================");
-        System.out.println("   VUELOS DEL ÁEROPUERTO DE VALENCIA   ");
-        System.out.println("=======================================");
-        System.out.println(" 1 - Imprimir todos tus datos");
-        System.out.println(" 2 - Jugar");
-        System.out.println(" 3 - Salir");
-        System.out.println("-----------------------------");
-        System.out.print("Dame la opción: ");
+    public static void cargarPersonajes() {
+        jugadores.put("Sergio", new Jugador("Sergio", Jugador.Personaje.INVENTOR, 90));
+        jugadores.put("Mara", new Jugador("Mara", Jugador.Personaje.GUERRERO, 80));
+        jugadores.put("Miquel", new Jugador("Miquel", Jugador.Personaje.RASTREADOR, 85));
+        jugadores.put("Claudia", new Jugador("Claudia", Jugador.Personaje.MAGO, 110));
+        jugadores.put("Carlos", new Jugador("Carlos", Jugador.Personaje.SABIO, 95));
+        jugadores.put("Alexia", new Jugador("Alexia", Jugador.Personaje.EXPLORADOR, 100));
     }
 
-    public static void elecciones(int eleccion) {
-        switch (eleccion) {
-            case 1: System.out.println(); imprimirDatos(); break;
-            case 2: System.out.println(); jugar(); break;
-            case 3: break;
-            default: System.out.println("Eso no es una elección válida.");
+    public static Jugador pedirJugadorInicial() {
+        Jugador jugador = null;
+
+        while (jugador == null) {
+            System.out.println("Jugadores disponibles: " + jugadores.keySet());
+
+            System.out.print("Introduce jugador inicial: ");
+            String nombre = sc.nextLine();
+
+            jugador = jugadores.get(nombre);
+
+            if (jugador == null) {
+                System.out.println("Jugador no existe.");
+            }
         }
+
+        return jugador;
     }
 
-    public static void imprimirDatos() {
-        for (Jugador jugador : jugadores) {
-            if (jugador.getNombre().equals(nomJug)) {
-                System.out.println(jugador);
+    private static void menu() {
+        System.out.println("\n1 - Imprimir datos");
+        System.out.println("2 - Jugar");
+        System.out.println("3 - Salir");
+        System.out.print("Elige opción: ");
+    }
+
+    private static void jugar(Jugador jugador1) {
+        Jugador jugador2 = null;
+
+        System.out.print("Jugadores disponibles: ");
+        while (jugador2 == null) {
+            for (Jugador jugador : jugadores.values()) {
+                if (!(jugador.getNombre().equalsIgnoreCase(jugador1.getNombre()))) {
+                    System.out.println(jugador.getNombre());
+                }
+            }
+
+            System.out.print("Introduce jugador 2: ");
+            String nombre = sc.nextLine();
+
+            jugador2 = jugadores.get(nombre);
+
+            if (jugador2 == null || jugador2 == jugador1) {
+                System.out.println("Jugador no válido.");
+                jugador2 = null;
             }
         }
-    }
 
-    public static void jugar() {
-        sc.nextLine();
+        ArrayList<String> mochila1 = new ArrayList<>(jugador1.getMochila());
+        ArrayList<String> mochila2 = new ArrayList<>(jugador2.getMochila());
 
-        boolean existe = false;
-        String nomJug2;
+        int gana1 = 0, gana2 = 0;
 
-        do {
-            for (Jugador jugador : jugadores) {
-                if (!(jugador.getNombre().equals(nomJug))) System.out.println(jugador);
-            }
-            System.out.println();
+        Map<String, Integer> valores1 = asignarValores(jugador1);
+        Map<String, Integer> valores2 = asignarValores(jugador2);
 
-            System.out.print("Ingrese el nombre del personaje del jugador 2: ");
-            nomJug2 = sc.nextLine();
+        while (gana1 < 2 && gana2 < 2) {
+            String arma1, arma2;
 
-            for (Jugador jugador : jugadores) {
-                if (jugador.getNombre().equalsIgnoreCase(nomJug2) && !(jugador.getNombre().equalsIgnoreCase(nomJug))) {
-                    existe = true;
-                    System.out.println("Se ha encontrado el jugador correctamente.");
+            do {
+                System.out.println(jugador1.getNombre() + ": " + mochila1);
+                System.out.print("Elige una herramienta: ");
+                arma1 = sc.nextLine();
+
+                if (!(mochila1.contains(arma1))) {
+                    System.out.println("Herramienta inválida.");
                 }
-            }
+            } while (!(mochila1.contains(arma1)));
 
-            if (nomJug.equals(nomJug2)) {
-                System.out.println("No se puede escoger el mismo jugador.");
-            }
-        } while (!existe);
+            do {
+                System.out.println(jugador2.getNombre() + ": " + mochila2);
+                System.out.print("Elige una herramienta: ");
+                arma2 = sc.nextLine();
 
-        int jug1Arm1, jug1Arm2, jug1Arm3, jug1Arm4, jug2Arm1, jug2Arm2, jug2Arm3, jug2Arm4;
-        String arma1, arma2;
-
-        do {
-            jug1Arm1 = (int) (Math.random() * 10);
-            jug1Arm2 = (int) (Math.random() * 10);
-            jug1Arm3 = (int) (Math.random() * 10);
-            jug1Arm4 = (int) (Math.random() * 10);
-        } while (jug1Arm1 > 0 && jug1Arm1 < 5 &&  jug1Arm2 > 0 && jug1Arm2 < 5 &&  jug1Arm3 > 0 && jug1Arm3 < 5 && jug1Arm4 > 0 && jug1Arm4 < 5 && jug1Arm1 != jug1Arm2 && jug1Arm1 !=  jug1Arm3 && jug1Arm1 != jug1Arm4 && jug1Arm2 != jug1Arm3 &&  jug1Arm2 != jug1Arm4 &&  jug1Arm3 != jug1Arm4);
-
-        do {
-            jug2Arm1 = (int) (Math.random() * 10);
-            jug2Arm2 = (int) (Math.random() * 10);
-            jug2Arm3 = (int) (Math.random() * 10);
-            jug2Arm4 = (int) (Math.random() * 10);
-        } while (jug2Arm1 > 0 && jug2Arm1 < 5 &&  jug2Arm2 > 0 && jug2Arm2 < 5 &&  jug2Arm3 > 0 && jug2Arm3 < 5 && jug2Arm4 > 0 && jug2Arm4 < 5 && jug2Arm1 != jug2Arm2 && jug2Arm1 !=  jug2Arm3 && jug2Arm1 != jug2Arm4 && jug2Arm2 != jug2Arm3 &&  jug2Arm2 != jug2Arm4 &&  jug2Arm3 != jug2Arm4);
-
-        boolean valida = false;
-        int buscarArma1 = 0, buscarArma2 = 0;
-        do {
-            System.out.println("Jugador1:");
-
-            for (Jugador jugador : jugadores) {
-                if (jugador.getNombre().equals(nomJug)) {
-                    System.out.println(jugador.getMochila());
+                if (!(mochila2.contains(arma2))) {
+                    System.out.println("Herramienta inválida.");
                 }
+            } while (!(mochila2.contains(arma2)));
+
+            int valor1 = valores1.get(arma1), valor2 = valores2.get(arma2);
+
+            if (valor1 > valor2) {
+                mochila1.remove(arma1);
+                gana1++;
+                System.out.println("El jugador 1 gana la ronda y pierde su herramienta.");
+            } else if (valor2 > valor1) {
+                mochila2.remove(arma2);
+                gana2++;
+                System.out.println("El jugador 2 gana la ronda y pierde su herramienta.");
+            } else {
+                System.out.println("Habéis empatado esta ronda.");
             }
+        }
 
-            System.out.print("Introduce la herramienta que quieres usar: ");
-            arma1 = sc.nextLine();
-
-            for (Jugador jugador : jugadores) {
-                for (buscarArma1 = 0; buscarArma1 < jugador.getMochila().size(); buscarArma1++) {
-                    if (jugador.getMochila().get(buscarArma1).equals(arma1)) {
-                        System.out.println("Arma válida");
-                        valida = true;
-                    }
-                }
-            }
-
-            if (!valida) {
-                System.out.println("Esa arma no está disponible.");
-            }
-        } while (!valida);
-        valida = false;
-
-        if (buscarArma1 == 1) {
-            buscarArma1 = jug1Arm1;
-        } else if (buscarArma1 == 2) {
-            buscarArma1 = jug1Arm2;
-        }  else if (buscarArma1 == 3) {
-            buscarArma1 = jug1Arm3;
+        if (gana1 == 2) {
+            jugador1.aumentarVida();
+            System.out.println("El jugador 1 ha ganado la partida y ha conseguido 10 de vida extra.");
         } else {
-            buscarArma1 = jug1Arm4;
+            jugador2.aumentarVida();
+            System.out.println("El jugador 2 ha ganado la partida y ha conseguido 10 de vida extra.");
+        }
+    }
+
+    public static HashMap<String, Integer> asignarValores(Jugador jugador) {
+        HashMap<String, Integer> valores = new HashMap<>();
+        HashSet<Integer> usados = new HashSet<>();
+
+        for (String herramienta : jugador.getMochila()) {
+            int numero;
+
+            do {
+                numero = random.nextInt(4) + 1;
+            } while (usados.contains(numero));
+
+            usados.add(numero);
+            valores.put(herramienta, numero);
         }
 
-        do {
-            System.out.println("Jugador2:");
-
-            for (Jugador jugador : jugadores) {
-                if (jugador.getNombre().equals(nomJug)) {
-                    System.out.println(jugador.getMochila());
-                }
-            }
-
-            System.out.print("Introduce la herramienta que quieres usar: ");
-            arma1 = sc.nextLine();
-
-            for (Jugador jugador : jugadores) {
-                for (buscarArma2 = 0; buscarArma2 < jugador.getMochila().size(); buscarArma2++) {
-                    if (jugador.getMochila().get(buscarArma2).equals(arma1)) {
-                        System.out.println("Arma válida");
-                        valida = true;
-                    }
-                }
-            }
-
-            if (!valida) {
-                System.out.println("Esa arma no está disponible.");
-            }
-        } while (!valida);
-
-        if (buscarArma2 == 1) {
-            buscarArma2 = jug2Arm1;
-        } else if (buscarArma2 == 2) {
-            buscarArma2 = jug2Arm2;
-        }  else if (buscarArma2 == 3) {
-            buscarArma2 = jug2Arm3;
-        } else {
-            buscarArma2 = jug2Arm4;
-        }
-
-        if (buscarArma1 > buscarArma2) {
-            for (Jugador jugador : jugadores) {
-                if (jugador.getNombre().equals(nomJug)) {
-                    jugador.getMochila().remove(buscarArma1);
-                }
-            }
-        } else if (buscarArma1 < buscarArma2) {
-            for (Jugador jugador : jugadores) {
-                if (jugador.getNombre().equals(nomJug2)) {
-                    jugador.getMochila().remove(buscarArma2);
-                }
-            }
-        }
-
-        jugado = false;
+        return valores;
     }
 }

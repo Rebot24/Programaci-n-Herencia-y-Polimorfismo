@@ -62,6 +62,10 @@ public class Jugador {
         return vida;
     }
 
+    public void aumentarVida() {
+        this.vida += 10;
+    }
+
     public ArrayList<String> getMochila() {
         return mochila;
     }
