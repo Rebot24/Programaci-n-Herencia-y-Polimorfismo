@@ -1,16 +1,20 @@
 package UT6_Colecciones.Arte;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Artista {
     private String nombre, nacionalidad;
-    private Obra obra;
+    private ArrayList<Obra> obras;
 
     public Artista(String nombre, String nacionalidad) {
         this.nombre = nombre;
         this.nacionalidad = nacionalidad;
+        obras = new ArrayList<>();
     }
 
     public void anadirObra(Obra obra) {
-        this.obra = obra;
+        obras.add(obra);
     }
 
     public String getNombre() {
@@ -21,12 +25,12 @@ public class Artista {
         return nacionalidad;
     }
 
-    public Obra getObra() {
-        return obra;
+    public ArrayList<Obra> getObra() {
+        return obras;
     }
 
     @Override
     public String toString() {
-        return nombre + ", " + nacionalidad + ", " + obra;
+        return nombre + ", " + nacionalidad;
     }
 }

@@ -25,7 +25,7 @@ public class Main {
 
     public static void menu(){
         System.out.println("=======================================");
-        System.out.println("   VUELOS DEL ÁEROPUERTO DE VALENCIA   ");
+        System.out.println("            OBRAS  ARTISTAS            ");
         System.out.println("=======================================");
         System.out.println(" 1 - Imprimir todos los vuelos");
         System.out.println(" 2 - Buscar un número de vuelo");

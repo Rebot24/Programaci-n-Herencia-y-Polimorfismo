@@ -10,7 +10,6 @@ public class Vuelos {
 
     private String numero, origen, destino, dia;
     private Clase clase;
-    private ArrayList<Vuelos> vuelos;
 
     public Vuelos(String numero, String origen, String destino, String dia, Clase clase){
         this.numero = numero;
@@ -18,7 +17,6 @@ public class Vuelos {
         this.destino = destino;
         this.dia = dia;
         this.clase = clase;
-        this.vuelos = new ArrayList<Vuelos>();
     }
 
     public String getNumero() {
