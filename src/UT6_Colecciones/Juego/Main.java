@@ -14,13 +14,20 @@ public class Main {
         Jugador jugador1 = pedirJugadorInicial();
 
         do {
-            menu();
-            opcion = sc.nextInt();
-            sc.nextLine();
+            try {
+                menu();
+                opcion = sc.nextInt();
+                sc.nextLine();
 
-            switch (opcion) {
-                case 1: System.out.println(jugador1); break;
-                case 2: jugar(jugador1); break;
+                switch (opcion) {
+                    case 1: System.out.println(jugador1); break;
+                    case 2: jugar(jugador1); break;
+                    case 3: System.out.println("Saliendo...");
+                    default: System.out.println("Esa no es una opción válida.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Introduce los valores que se te indica.");
+                sc.nextLine();
             }
         } while (opcion != 3);
     }
